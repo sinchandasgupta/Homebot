@@ -18,7 +18,7 @@
 # This value will also be used for folder name
 CI_AOSP_PROJECT=aosip
 # Name to display on Telegram post
-CI_AOSP_PROJECT_NAME="AOSiP Quiche (10)"
+CI_AOSP_PROJECT_NAME="AOSiP Quiche"
 # Android version to display on Telegram post
 CI_AOSP_PROJECT_VERSION=10
 # These next 2 values are needed to lunch (e.g. "lineage"_whyred-"userdebug")
