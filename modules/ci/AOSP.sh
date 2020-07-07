@@ -165,6 +165,11 @@ if [ $CI_LUNCH_STATUS != 0 ]; then
 	exit
 fi
 
+if [ $CI_AOSP_PROJECT = "aosip" ]; then
+	ci_message "Exporting WITH_GAPPS"
+	export WITH_GAPPS=true
+fi
+
 if [ "$CI_CLEAN" != "" ]; then
 	ci_message "Cleaning (mka $CI_CLEAN)..."
 	mka $CI_CLEAN &> clean_log.txt
@@ -179,7 +184,12 @@ if [ "$CI_CLEAN" != "" ]; then
 fi
 
 ci_message "Building..."
-mka $CI_BUILD_TARGET -j$(nproc --all) &> build_log.txt
+if [ $CI_AOSP_PROJECT = "aosip" ]; then
+	time m kronic &> build_log.txt
+else
+        mka $CI_BUILD_TARGET -j$(nproc --all) &> build_log.txt
+
+fi
 CI_BUILD_STATUS=$?
 if [ $CI_BUILD_STATUS != 0 ]; then
 	CI_BUILD_END=$(date +"%s")
