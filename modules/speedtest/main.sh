@@ -15,11 +15,7 @@
 # limitations under the License.
 #
 
-module_echo() {
-	if [ "$(tg_get_command_arguments "$@")" != "" ]; then
-		tg_send_message --chat_id "$(tg_get_chat_id "$@")" --text "$(tg_get_command_arguments "$@")" --reply_to_message_id "$(tg_get_message_id "$@")"
-	else
-		tg_send_message --chat_id "$(tg_get_chat_id "$@")" --text "Error: please write something after the command" --reply_to_message_id "$(tg_get_message_id "$@")"
-	fi
-
+module_speedtest() {
+	local MESSAGE_ID=$(tg_send_message --chat_id "$(tg_get_chat_id "$@")" --text "Running speedtest..." --reply_to_message_id "$(tg_get_message_id "$@")" | jq .result.message_id)
+	tg_edit_message_text --chat_id "$(tg_get_chat_id "$@")" --text "$MESSAGE_ID" --reply_to_message_id "\`$(speedtest-cli | grep "Mbit/s")\`" --parse_mode "Markdown"
 }

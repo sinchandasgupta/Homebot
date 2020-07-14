@@ -15,13 +15,14 @@
 # limitations under the License.
 #
 
-export VERSION=0.6.2
-export BRANCH=Alpha
+export VERSION=1.0.0
+export BRANCH=Stable
 
 export SCRIPT_PWD=$(pwd)
 
 # Source variables and basic functions
 source variables.sh
+source base/telegram_base.sh
 source base/telegram_admin.sh
 source base/telegram_get.sh
 source base/telegram_send.sh
@@ -30,16 +31,13 @@ source base/get.sh
 source base/modules.sh
 source base/updates.sh
 
-import_variables
-import_more_variables
-
 import_modules
 
 if [ $(tg_get_updates | jq .ok) = "true" ]; then
 	echo "Bot up and running!"
 	while [ 0 != 1 ]; do
 		if [ "$LAST_UPDATE_ID" != "" ]; then
-			LAST_UPDATES=$(tg_get_updates -d offset="$LAST_UPDATE_ID")
+			LAST_UPDATES=$(tg_get_updates --offset "$LAST_UPDATE_ID")
 		else
 			LAST_UPDATES=$(tg_get_updates)
 		fi
@@ -48,7 +46,7 @@ if [ $(tg_get_updates | jq .ok) = "true" ]; then
 			echo "Found $UNREAD_UPDATES_NUMBER update(s)"
 			CURRENT_UPDATES_NUMBER=0
 			while [ "$UNREAD_UPDATES_NUMBER" -gt "$CURRENT_UPDATES_NUMBER" ]; do
-				execute_module "$(tg_get_specific_update "$LAST_UPDATES" "$CURRENT_UPDATES_NUMBER")"
+				execute_module "$(tg_get_specific_update "$LAST_UPDATES" "$CURRENT_UPDATES_NUMBER")" &
 				CURRENT_UPDATES_NUMBER=$(( CURRENT_UPDATES_NUMBER + 1 ))
 			done
 			LAST_UPDATE_ID=$(tg_get_last_update_id "$LAST_UPDATES")
