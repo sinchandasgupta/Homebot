@@ -25,7 +25,7 @@ CI_AOSP_PROJECT_VERSION=10
 CI_LUNCH_PREFIX=aosip
 CI_LUNCH_SUFFIX=userdebug
 # Target to build (e.g. to build a ROM's OTA package, use "bacon" or "otapackage", for a recovery project, use "recoveryimage")
-CI_BUILD_TARGET=
+CI_BUILD_TARGET=kronic
 # Filename of the output. You can also use wildcards if the name isn't fixed
 CI_OUT_ARTIFACTS_NAME=AOSiP-10-Quiche-*.zip
 

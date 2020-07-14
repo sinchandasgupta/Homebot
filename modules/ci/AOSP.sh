@@ -184,14 +184,8 @@ if [ "$CI_CLEAN" != "" ]; then
 fi
 
 ci_message "Building..."
-if [ $CI_AOSP_PROJECT = "aosip" ]; then
-	time m kronic &> build_log.txt
-elif [ $CI_AOSP_PROJECT = "posp" ]; then
-	brunch vince &> build_log.txt
-else
-        mka $CI_BUILD_TARGET -j$(nproc --all) &> build_log.txt
+mka $CI_BUILD_TARGET -j$(nproc --all) &> build_log.txt
 
-fi
 CI_BUILD_STATUS=$?
 if [ $CI_BUILD_STATUS != 0 ]; then
 	CI_BUILD_END=$(date +"%s")
